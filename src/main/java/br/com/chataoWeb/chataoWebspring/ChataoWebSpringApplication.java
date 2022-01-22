@@ -9,5 +9,4 @@ public class ChataoWebSpringApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ChataoWebSpringApplication.class, args);
 	}
-
 }

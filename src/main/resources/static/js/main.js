@@ -23,7 +23,7 @@ function connect(event) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
 
-        var socket = new SockJS('/javatechie');
+        var socket = new SockJS('/websocket');
         stompClient = Stomp.over(socket);
 
         stompClient.connect({}, onConnected, onError);
@@ -36,8 +36,8 @@ function onConnected() {
     // Subscribe to the Public Topic
     stompClient.subscribe('/topic/public', onMessageReceived);
 
-    // Tell your username to the server
-    stompClient.send("/app/chat.register",
+    // Tell username to the server
+    stompClient.send("/app/chat-register",
         {},
         JSON.stringify({sender: username, type: 'JOIN'})
     )
@@ -47,7 +47,7 @@ function onConnected() {
 
 
 function onError(error) {
-    connectingElement.textContent = 'Não foi possível conectar com WebSocket. Atualize e página !';
+    connectingElement.textContent = 'Could not connect with WebSocket. Refresh a page!';
     connectingElement.style.color = 'red';
 }
 
@@ -62,7 +62,7 @@ function send(event) {
             type: 'CHAT'
         };
 
-        stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
+        stompClient.send("/app/chat-send", {}, JSON.stringify(chatMessage));
         messageInput.value = '';
     }
     event.preventDefault();
@@ -76,7 +76,7 @@ function onMessageReceived(payload) {
 
     if(message.type === 'JOIN') {
         messageElement.classList.add('event-message');
-        message.content = message.sender + ' Entrou!';
+        message.content = message.sender + ' Joined!';
     } else if (message.type === 'LEAVE') {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' left!';
