@@ -12,8 +12,8 @@ import br.com.chataoWeb.chataoWebspring.model.entity.ChatMessage;
 public class ChatController {
 
 	@SendTo("/topic/public")
-	@MessageMapping("/chat-register")
-	public ChatMessage register(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+	@MessageMapping("/join-user")
+	public ChatMessage joinUser(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
 		headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
 		return chatMessage;
 	}
